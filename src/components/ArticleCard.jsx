@@ -1,9 +1,15 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
+import {Link } from "react-router-dom";
+
 
 
 function ArticleCard({article}) {
+
+  function handleClick(){
+
+  }
   return (
     <Col>
         <Card style={{margin: 30}}>
@@ -16,7 +22,9 @@ function ArticleCard({article}) {
             <Card.Text>
             Topic: {article.topic}
             </Card.Text>
-            <Button variant="primary">Read More...</Button>
+            <Link to={`/articles/${article.article_id}`}> 
+              <Button variant="primary">Read More...</Button>
+            </Link>
         </Card.Body>
         </Card>
     </Col>

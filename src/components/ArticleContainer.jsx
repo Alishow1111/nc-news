@@ -2,7 +2,7 @@ import { useState, useEffect} from 'react'
 import Spinner from 'react-bootstrap/Spinner';
 import ArticleCard from './ArticleCard';
 import Row from 'react-bootstrap/Row';import Col from 'react-bootstrap/Col';
-import fetchArticles from './utils/api';
+import {fetchArticles} from './utils/api';
 
 
 
