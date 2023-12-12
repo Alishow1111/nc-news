@@ -1,8 +1,8 @@
 import { useState, useEffect} from 'react'
 import Spinner from 'react-bootstrap/Spinner';
-import axios from 'axios'
 import ArticleCard from './ArticleCard';
 import Row from 'react-bootstrap/Row';import Col from 'react-bootstrap/Col';
+import fetchArticles from './utils/api';
 
 
 
@@ -11,13 +11,10 @@ function ArticleContainer() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get('https://nc-news-2.onrender.com/api/articles')
-        .then((response) => {
-            setArticles(response.data.articles);
+        fetchArticles()
+        .then((articlesResponse) => {
+            setArticles(articlesResponse);
             setLoading(false)
-        })
-        .catch((error) => {
-            console.log(error);
         })
     }, [])
 
