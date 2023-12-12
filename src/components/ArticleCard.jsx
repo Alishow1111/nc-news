@@ -7,9 +7,6 @@ import {Link } from "react-router-dom";
 
 function ArticleCard({article}) {
 
-  function handleClick(){
-
-  }
   return (
     <Col>
         <Card style={{margin: 30}}>
