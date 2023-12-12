@@ -1,7 +1,6 @@
 import { useState } from 'react'
 
-
-
+n
 function Header() {
 
   return (
@@ -12,3 +11,4 @@ function Header() {
 }
 
 export default Header
+
