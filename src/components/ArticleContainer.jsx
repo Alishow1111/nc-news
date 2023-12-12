@@ -23,7 +23,7 @@ function ArticleContainer() {
 
     if (loading){
         return (
-            <Spinner animation="border" role="status">
+            <Spinner animation="border" role="status" style={{margin: 20}}>
               <span className="visually-hidden">Loading...</span>
             </Spinner>
         );        
