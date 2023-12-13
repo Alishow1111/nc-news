@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
-import {fetchArticleById, fetchCommentsByArticle} from './utils/api';
+import {fetchArticleById} from './utils/api';
 import Spinner from 'react-bootstrap/Spinner';
-import CommentCard from './CommentCard';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import Comments from './Comments';
+
 
 
 
@@ -12,19 +11,12 @@ function ArticlePage() {
     const {article_id} = useParams();
     const [article, setArticle] = useState();
     const [loading, setLoading] = useState(true);
-    const [comments, setComments] = useState([]);
-
 
     useEffect(() => {
         fetchArticleById(article_id)
         .then((articleResponse) => {
             setArticle(articleResponse);
             setLoading(false)
-
-            fetchCommentsByArticle(article_id)
-            .then((articleComments) => {
-                setComments(articleComments)
-            })
         })
     }, [])
 
@@ -43,12 +35,8 @@ function ArticlePage() {
             <h3 style={{paddingTop:20}}>Written by: {article.author}</h3>
             <p style={{paddingTop: 20}}>{article.body}</p>
 
-            <h4>Comments:</h4>
-            <Row lg={3}>
-                {comments.map((comment) => {
-                    return <CommentCard key={comment.comment_id} comment={comment} />
-                })}
-            </Row>
+            <Comments article_id={article_id} />
+               
         </div>
     )
 }
