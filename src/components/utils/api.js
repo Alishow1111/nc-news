@@ -20,4 +20,19 @@ function fetchArticleById (article_id) {
     })
 }
 
-export {fetchArticles, fetchArticleById};
+function patchVotes (article_id, count){
+    return axios.patch(`https://nc-news-2.onrender.com/api/articles/${article_id}`, 
+    {
+        inc_votes: count
+    })
+    .then((response) =>{
+        return response;
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+
+
+}
+
+export {fetchArticles, fetchArticleById, patchVotes};

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
-import {fetchArticleById} from './utils/api';
+import {fetchArticleById, patchVotes} from './utils/api';
 import Spinner from 'react-bootstrap/Spinner';
 import ThumbUpRoundedIcon from '@mui/icons-material/ThumbUpRounded';
 import ThumbDownRoundedIcon from '@mui/icons-material/ThumbDownRounded';
@@ -14,6 +14,7 @@ function ArticlePage() {
     const [voteCount, setVoteCount] = useState(0);
     const [loading, setLoading] = useState(true);
     const [vote, setVote] = useState(false);
+    const [downVote, setDownVote] = useState(false);
 
 
     useEffect(() => {
@@ -27,12 +28,16 @@ function ArticlePage() {
 
     function incrementVote(){
         setVote(true);
-        setVoteCount((prevVotes) => {prevVotes++})
-        //make request to api
+        setDownVote(false);
+        setVoteCount(1);
+        patchVotes(article_id, 1);
     }
 
     function decrementVote(){
-        setVoteCount((prevVotes) => {prevVotes--})
+        setVote(false);
+        setDownVote(true);
+        setVoteCount(-1);
+        patchVotes(article_id, -1)
     }
 
     if (loading){
@@ -50,7 +55,7 @@ function ArticlePage() {
             <h3 style={{paddingTop:20}}>Written by: {article.author}</h3>
             <p style={{paddingTop: 20}}>{article.body}</p>
 
-            <ThumbUpRoundedIcon color={vote ? "primary" : ""} onClick={incrementVote}/> {voteCount}  <ThumbDownRoundedIcon onClick={decrementVote} />
+            <ThumbUpRoundedIcon color={vote ? "primary" : ""} onClick={incrementVote}/> {article.votes + voteCount}  <ThumbDownRoundedIcon color={downVote ? "error" : ""} onClick={decrementVote} />
         </div>
     )
 }
