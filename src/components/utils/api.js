@@ -20,6 +20,17 @@ function fetchArticleById (article_id) {
     })
 }
 
+function fetchCommentsByArticle (article_id){
+    return axios.get(`https://nc-news-2.onrender.com/api/articles/${article_id}/comments`)
+    .then((response) => {
+        return response.data.comments;
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+
+}
+
 function patchVotes (article_id, count){
     return axios.patch(`https://nc-news-2.onrender.com/api/articles/${article_id}`, 
     {
@@ -28,11 +39,7 @@ function patchVotes (article_id, count){
     .then((response) =>{
         return response;
     })
-    .catch((error) => {
-        console.log(error);
-    })
-
-
 }
 
-export {fetchArticles, fetchArticleById, patchVotes};
+
+export {fetchArticles, fetchArticleById, fetchCommentsByArticle, patchVotes};

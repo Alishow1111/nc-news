@@ -4,6 +4,7 @@ import {fetchArticleById, patchVotes} from './utils/api';
 import Spinner from 'react-bootstrap/Spinner';
 import ThumbUpRoundedIcon from '@mui/icons-material/ThumbUpRounded';
 import ThumbDownRoundedIcon from '@mui/icons-material/ThumbDownRounded';
+import Comments from './Comments';
 
 
 
@@ -15,7 +16,6 @@ function ArticlePage() {
     const [loading, setLoading] = useState(true);
     const [vote, setVote] = useState(false);
     const [downVote, setDownVote] = useState(false);
-
 
     useEffect(() => {
         fetchArticleById(article_id)
@@ -56,6 +56,8 @@ function ArticlePage() {
             <p style={{paddingTop: 20}}>{article.body}</p>
 
             <ThumbUpRoundedIcon color={vote ? "primary" : ""} onClick={incrementVote}/> {article.votes + voteCount}  <ThumbDownRoundedIcon color={downVote ? "error" : ""} onClick={decrementVote} />
+            <Comments article_id={article_id} />
+               
         </div>
     )
 }
