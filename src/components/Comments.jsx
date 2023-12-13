@@ -1,14 +1,18 @@
 import { useEffect, useState } from 'react'
 import CommentCard from './CommentCard';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import { fetchCommentsByArticle } from './utils/api';
 import Spinner from 'react-bootstrap/Spinner';
+import PostComment from './PostComment';
+import { UserContext } from "../contexts/UserContext";
+import { useContext} from "react";
 
 
 function Comments({article_id}) {
     const [comments, setComments] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { currentUser, setCurrentUser } = useContext(UserContext);
+
 
     useEffect(() => {
         fetchCommentsByArticle(article_id)
@@ -35,6 +39,7 @@ function Comments({article_id}) {
     return (
         <>
         <h4>Comments</h4>
+        {currentUser === "" ? null : <PostComment />}
         <Row lg={3}>
             {comments.map((comment) => {
                 return <CommentCard key={comment.comment_id} comment={comment} />
