@@ -30,4 +30,14 @@ function fetchCommentsByArticle (article_id){
     })
 }
 
-export {fetchArticles, fetchArticleById, fetchCommentsByArticle};
+function fetchUsers (){
+    return axios.get(`https://nc-news-2.onrender.com/api/users`)
+    .then((response) => {
+        return response.data.users;
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+}
+
+export {fetchArticles, fetchArticleById, fetchCommentsByArticle, fetchUsers};

@@ -18,7 +18,6 @@ function NavBar() {
             <LinkContainer to="/">
               <Nav.Link>Home</Nav.Link>
             </LinkContainer>
-            <Nav.Link href="#link">Link</Nav.Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
@@ -30,6 +29,9 @@ function NavBar() {
                 Separated link
               </NavDropdown.Item>
             </NavDropdown>
+            <LinkContainer to="/profiles">
+              <Nav.Link>Profiles</Nav.Link>
+            </LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Container>
