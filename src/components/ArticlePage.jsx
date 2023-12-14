@@ -16,6 +16,7 @@ function ArticlePage() {
     const [loading, setLoading] = useState(true);
     const [vote, setVote] = useState(false);
     const [downVote, setDownVote] = useState(false);
+    const [err, setErr] = useState(null);
 
     useEffect(() => {
         fetchArticleById(article_id)
@@ -23,21 +24,45 @@ function ArticlePage() {
             setArticle(articleResponse);
             setVoteCount(articleResponse.votes);
             setLoading(false)
+
+            const hasVoted = localStorage.getItem(`vote_${article_id}`);
+            if (hasVoted === 'up') {
+                setVote(true);
+            } else if (hasVoted === 'down') {
+                setDownVote(true);
+            }
+
         })
     }, [])
 
-    function incrementVote(){
-        setVote(true);
-        setDownVote(false);
-        setVoteCount(1);
-        patchVotes(article_id, 1);
+    function incrementVote() {
+        if (!vote) {
+            setVote(true);
+            setDownVote(false);
+            setVoteCount((currentVotes) => currentVotes + 1);
+            setErr(null);
+            patchVotes(article_id, 1)
+            .catch((error) => {
+                setVoteCount((currentVotes) => currentVotes - 1);
+                setErr("Something went wrong, please try again")
+            })
+            localStorage.setItem(`vote_${article_id}`, 'up');
+        }
     }
 
-    function decrementVote(){
-        setVote(false);
-        setDownVote(true);
-        setVoteCount(-1);
-        patchVotes(article_id, -1)
+    function decrementVote() {
+        if (!downVote) {
+            setVote(false);
+            setDownVote(true);
+            setVoteCount((currentVotes) => currentVotes - 1);
+            setErr(null);
+            patchVotes(article_id, -1)
+            .catch((error) => {
+                setVoteCount((currentVotes) => currentVotes + 1);
+                setErr("Something went wrong, please try again")
+            })
+            localStorage.setItem(`vote_${article_id}`, 'down');
+        }
     }
 
     if (loading){
@@ -55,7 +80,11 @@ function ArticlePage() {
             <h3 style={{paddingTop:20}}>Written by: {article.author}</h3>
             <p style={{paddingTop: 20}}>{article.body}</p>
 
-            <ThumbUpRoundedIcon color={vote ? "primary" : ""} onClick={incrementVote}/> {article.votes + voteCount}  <ThumbDownRoundedIcon color={downVote ? "error" : ""} onClick={decrementVote} />
+            <ThumbUpRoundedIcon color={vote ? "primary" : ""} onClick={incrementVote}/> {voteCount}{' '}  
+            <ThumbDownRoundedIcon color={downVote ? "error" : ""} onClick={decrementVote} />
+
+            {err ? <p>{err}</p> : null}
+
             <Comments article_id={article_id} />
                
         </div>
