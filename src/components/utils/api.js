@@ -40,4 +40,17 @@ function fetchUsers (){
     })
 }
 
-export {fetchArticles, fetchArticleById, fetchCommentsByArticle, fetchUsers};
+function postComment (article_id, username, commentBody){
+    return axios.post(`https://nc-news-2.onrender.com/api/articles/${article_id}/comments`, {
+        username: username, 
+        body: commentBody
+    })
+    .then((response) => {
+        return response.data.comment;
+    })
+    .catch((error) => {
+        return error;
+    })
+}
+
+export {fetchArticles, fetchArticleById, fetchCommentsByArticle, fetchUsers, postComment};
