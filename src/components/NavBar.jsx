@@ -4,8 +4,12 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import {LinkContainer} from 'react-router-bootstrap'
+import { UserContext } from "../contexts/UserContext";
+import { useContext} from "react";
 
 function NavBar() {
+  const { currentUser, setCurrentUser } = useContext(UserContext);
+
 
   return (
     <>
@@ -18,7 +22,6 @@ function NavBar() {
             <LinkContainer to="/">
               <Nav.Link>Home</Nav.Link>
             </LinkContainer>
-            <Nav.Link href="#link">Link</Nav.Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
@@ -30,7 +33,15 @@ function NavBar() {
                 Separated link
               </NavDropdown.Item>
             </NavDropdown>
+            <LinkContainer to="/profiles">
+              <Nav.Link>Profiles</Nav.Link>
+            </LinkContainer>
           </Nav>
+        </Navbar.Collapse>
+        <Navbar.Collapse className="justify-content-end">
+          <Navbar.Text>
+            {currentUser === "" ? "Not Logged In" : `Logged in as ${currentUser.username}`}
+          </Navbar.Text>
         </Navbar.Collapse>
       </Container>
     </Navbar>

@@ -5,6 +5,7 @@ import ArticleContainer from './components/ArticleContainer'
 import NavBar from './components/NavBar'
 import { Routes, Route } from 'react-router-dom';
 import ArticlePage from './components/ArticlePage'
+import Profiles from './components/Profiles'
 
 
 
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<ArticleContainer />} />
         <Route path= "/articles/:article_id" element={<ArticlePage />} />
+        <Route path= "/profiles" element={<Profiles />} />
       </Routes>
     </div>
   )
