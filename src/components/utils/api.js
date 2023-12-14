@@ -28,6 +28,7 @@ function fetchCommentsByArticle (article_id){
     .catch((error) => {
         console.log(error);
     })
+
 }
 
 function fetchUsers (){
@@ -53,4 +54,15 @@ function postComment (article_id, username, commentBody){
     })
 }
 
-export {fetchArticles, fetchArticleById, fetchCommentsByArticle, fetchUsers, postComment};
+function patchVotes (article_id, count){
+    return axios.patch(`https://nc-news-2.onrender.com/api/articles/${article_id}`, 
+    {
+        inc_votes: count
+    })
+    .then((response) =>{
+        return response;
+    })
+}
+
+export {fetchArticles, fetchArticleById, fetchCommentsByArticle, fetchUsers, postComment, patchVotes};
+
