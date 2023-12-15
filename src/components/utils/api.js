@@ -6,7 +6,7 @@ function fetchArticles () {
         return response.data.articles;
     })
     .catch((error) => {
-        console.log(error);
+        return error;
     })
 }
 
@@ -15,8 +15,8 @@ function fetchArticleById (article_id) {
     .then((response) => {
         return response.data.article;
     })
-    .catch((error) => {
-        console.log(error);
+    .catch(() => {
+        return Promise.reject();
     })
 }
 
@@ -86,8 +86,8 @@ function fetchArticlesByTopic (topic) {
     .then((response) => {
         return response.data.articles;
     })
-    .catch((error) => {
-        console.log(error);
+    .catch(() => {
+        return Promise.reject();
     })
 }
 

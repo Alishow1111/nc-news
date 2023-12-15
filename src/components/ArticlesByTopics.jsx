@@ -4,14 +4,14 @@ import ArticleCard from './ArticleCard';
 import Row from 'react-bootstrap/Row';
 import {fetchArticlesByTopic} from './utils/api';
 import { useParams } from 'react-router-dom';
-
-
+import ErrorPage from './ErrorPage'
 
 
 function ArticlesByTopic() {
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(true);
     const {slug} = useParams();
+    const [err, setErr] = useState(false);
 
 
     useEffect(() => {
@@ -19,6 +19,10 @@ function ArticlesByTopic() {
         .then((articlesResponse) => {
             setArticles(articlesResponse);
             setLoading(false)
+        })
+        .catch(() => {
+            setLoading(false);
+            setErr(true);
         })
     }, [])
 
@@ -28,6 +32,10 @@ function ArticlesByTopic() {
               <span className="visually-hidden">Loading...</span>
             </Spinner>
         );        
+    }
+
+    if (err){
+        return <ErrorPage type="404" msg="Topic doesnt exist" />
     }
 
     return (
