@@ -5,6 +5,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import ThumbUpRoundedIcon from '@mui/icons-material/ThumbUpRounded';
 import ThumbDownRoundedIcon from '@mui/icons-material/ThumbDownRounded';
 import Comments from './Comments';
+import ErrorPage from './ErrorPage';
 
 
 
@@ -16,14 +17,14 @@ function ArticlePage() {
     const [loading, setLoading] = useState(true);
     const [vote, setVote] = useState(false);
     const [downVote, setDownVote] = useState(false);
-    const [err, setErr] = useState(null);
+    const [err, setErr] = useState(false);
 
     useEffect(() => {
         fetchArticleById(article_id)
         .then((articleResponse) => {
+            setLoading(false)
             setArticle(articleResponse);
             setVoteCount(articleResponse.votes);
-            setLoading(false)
 
             const hasVoted = localStorage.getItem(`vote_${article_id}`);
             if (hasVoted === 'up') {
@@ -33,6 +34,10 @@ function ArticlePage() {
             }
 
         })
+        .catch(() => {
+            setLoading(false);
+            setErr(true);
+        })
     }, [])
 
     function incrementVote() {
@@ -40,11 +45,9 @@ function ArticlePage() {
             setVote(true);
             setDownVote(false);
             setVoteCount((currentVotes) => currentVotes + 1);
-            setErr(null);
             patchVotes(article_id, 1)
             .catch((error) => {
                 setVoteCount((currentVotes) => currentVotes - 1);
-                setErr("Something went wrong, please try again")
             })
             localStorage.setItem(`vote_${article_id}`, 'up');
         }
@@ -55,11 +58,9 @@ function ArticlePage() {
             setVote(false);
             setDownVote(true);
             setVoteCount((currentVotes) => currentVotes - 1);
-            setErr(null);
             patchVotes(article_id, -1)
             .catch((error) => {
                 setVoteCount((currentVotes) => currentVotes + 1);
-                setErr("Something went wrong, please try again")
             })
             localStorage.setItem(`vote_${article_id}`, 'down');
         }
@@ -71,6 +72,10 @@ function ArticlePage() {
               <span className="visually-hidden">Loading...</span>
             </Spinner>
         );        
+    }
+
+    if (err){
+        return <ErrorPage type="404" msg="Article doesnt exist" />
     }
 
     return (
