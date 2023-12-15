@@ -71,5 +71,25 @@ function deleteComment(comment_id){
     })
 }
 
-export {fetchArticles, fetchArticleById, fetchCommentsByArticle, fetchUsers, postComment, patchVotes, deleteComment};
+function fetchTopics(){
+    return axios.get('https://nc-news-2.onrender.com/api/topics')
+    .then((response) => {
+        return response.data.topics;
+    })
+    .catch((error) => {
+        return error;
+    })
+}
+
+function fetchArticlesByTopic (topic) {
+    return axios.get(`https://nc-news-2.onrender.com/api/articles?topic=${topic}`)
+    .then((response) => {
+        return response.data.articles;
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+}
+
+export {fetchArticles, fetchArticleById, fetchCommentsByArticle, fetchUsers, postComment, patchVotes, deleteComment, fetchTopics, fetchArticlesByTopic};
 

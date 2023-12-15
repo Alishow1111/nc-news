@@ -15,7 +15,6 @@ function ProfileCard({user}) {
         event.preventDefault();
         setCurrentUser(user);
         setSelected(true);
-        console.log(currentUser);
     }
 
     return (

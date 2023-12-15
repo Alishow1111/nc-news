@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -6,9 +6,20 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import {LinkContainer} from 'react-router-bootstrap'
 import { UserContext } from "../contexts/UserContext";
 import { useContext} from "react";
+import { fetchTopics } from './utils/api';
 
 function NavBar() {
   const { currentUser, setCurrentUser } = useContext(UserContext);
+  const [topics, setTopics] = useState([]);
+  const [loading, setLoading] = useState(true)
+
+
+  useEffect(() => {
+    fetchTopics().then((response) => {
+      setTopics(response);
+      setLoading(false);
+    })
+  }, [])
 
 
   return (
@@ -22,16 +33,16 @@ function NavBar() {
             <LinkContainer to="/">
               <Nav.Link>Home</Nav.Link>
             </LinkContainer>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
+            <NavDropdown title="Topics" id="basic-nav-dropdown">
+              {topics.map((topic) => {
+                return (
+                  <LinkContainer to={`/articlesByTopic/${topic.slug}`} key={topic.slug}>
+                    <NavDropdown.Item>
+                    {topic.slug.charAt(0).toUpperCase() + topic.slug.slice(1)}
+                    </NavDropdown.Item>
+                  </LinkContainer>
+                )
+              })}
             </NavDropdown>
             <LinkContainer to="/profiles">
               <Nav.Link>Profiles</Nav.Link>
