@@ -69,9 +69,6 @@ function deleteComment(comment_id){
     .then((response) => {
         return response;
     })
-    .catch((error) => {
-        return error;
-    })
 }
 
 export {fetchArticles, fetchArticleById, fetchCommentsByArticle, fetchUsers, postComment, patchVotes, deleteComment};
