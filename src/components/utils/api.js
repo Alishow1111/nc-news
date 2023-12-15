@@ -64,5 +64,12 @@ function patchVotes (article_id, count){
     })
 }
 
-export {fetchArticles, fetchArticleById, fetchCommentsByArticle, fetchUsers, postComment, patchVotes};
+function deleteComment(comment_id){
+    return axios.delete(`https://nc-news-2.onrender.com/api/comments/${comment_id}`)
+    .then((response) => {
+        return response;
+    })
+}
+
+export {fetchArticles, fetchArticleById, fetchCommentsByArticle, fetchUsers, postComment, patchVotes, deleteComment};
 

@@ -43,7 +43,7 @@ function Comments({article_id}) {
         {currentUser === "" ? <p>To post comment, select user from <Link to="/profiles">profile</Link> page</p> : <PostComment setComments={setComments} user={currentUser} article_id={article_id} />}
         <Row lg={3}>
             {comments.map((comment) => {
-                return <CommentCard key={comment.comment_id} comment={comment} />
+                return <CommentCard key={comment.comment_id} comment={comment} setComments={setComments} user={currentUser} />
             })}
         </Row>
         </>
